@@ -8,15 +8,15 @@ import string
 import subprocess
 import sys
 import textwrap
-import yaml
 from pandocfilters import toJSONFilter, CodeBlock, Emph, Image, Para, Str
 from PIL import Image as Img
 from PIL import ImageDraw, ImageFont
 
+__version__ = '0.0.1'
+
 MARKDOWN_TAG_NAME = 'run'
 ARTIFACTS_DIR = 'run_artifacts'
 DEBUG_FILE = f'{ARTIFACTS_DIR}/debug.txt'
-FD = None
 
 def debug(msg):
     FD = open(f'{DEBUG_FILE}', 'a')
@@ -131,6 +131,9 @@ def toShell(meta):
     cmd = "{0} {1}".format(meta['cmd'], meta['body'])
     return execute(cmd)
 
-if __name__ == "__main__":
+def main():
     initialize()
     toJSONFilter(run)
+
+if __name__ == "__main__":
+    main()
