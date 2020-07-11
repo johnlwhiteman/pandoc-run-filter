@@ -32,11 +32,13 @@ setup(
     long_description_content_type='text/markdown',
     install_requires = [
         'pandocfilters >= 1.4',
-        'Pillow >= 7.2',
-        'PyYAML >= 5.3'
+        'Pillow >= 7.2'
     ],
     extras_require = {
         'dev': [
+            'matplotlib >= 3.2',
+            'matplotlib-venn >= 0.11',
+            'pyfiglet >= 0.8',
             'pytest >= 5.1'
         ]
     },

@@ -35,18 +35,18 @@ class Tests(TestCase):
     def test_04(self):
         self.rm_dir(prf.ARTIFACTS_DIR)
         prf.initialize()
-        prf.debug('Hello Squirrel')
+        prf.debug('Some debug message.')
         rc = os.path.isfile(prf.DEBUG_FILE)
         if rc == True:
             with open(prf.DEBUG_FILE) as fd:
                 content = fd.read().strip()
-                rc = content == 'Hello Squirrel'
+                rc = content == 'Some debug message.'
             self.rm_dir(prf.ARTIFACTS_DIR)
         self.assertTrue(rc)
 
     '''Verify in="shell" out="text"'''
     def test_05(self):
-        path = '01.epub'
+        path = f'''{prf.ARTIFACTS_DIR}/01.epub'''
         os.chdir(DIR)
         if os.path.isfile(path):
             os.unlink(path)
@@ -59,11 +59,50 @@ class Tests(TestCase):
 
     '''Verify in="shell" out="image"'''
     def test_06(self):
-        path = '02.epub'
+        path = f'''{prf.ARTIFACTS_DIR}/02.epub'''
         os.chdir(DIR)
         if os.path.isfile(path):
             os.unlink(path)
         rc = os.system('make 02')
+        if 0 == rc:
+            rc = os.path.isfile(path)
+        else:
+            rc = False
+        self.assertTrue(rc)
+
+    '''Verify in="script" out="text"'''
+    def test_07(self):
+        path = f'''{prf.ARTIFACTS_DIR}/03.epub'''
+        os.chdir(DIR)
+        if os.path.isfile(path):
+            os.unlink(path)
+        rc = os.system('make 03')
+        if 0 == rc:
+            rc = os.path.isfile(path)
+        else:
+            rc = False
+        self.assertTrue(rc)
+
+    '''Verify in="script" out="image img="venn04.png"'''
+    def test_08(self):
+        path = f'''{prf.ARTIFACTS_DIR}/04.epub'''
+        os.chdir(DIR)
+        if os.path.isfile(path):
+            os.unlink(path)
+        rc = os.system('make 04')
+        if 0 == rc:
+            rc = os.path.isfile(path)
+        else:
+            rc = False
+        self.assertTrue(rc)
+
+    '''Verify in="script" out="image img="co05.png"'''
+    def test_08(self):
+        path = f'''{prf.ARTIFACTS_DIR}/05.epub'''
+        os.chdir(DIR)
+        if os.path.isfile(path):
+            os.unlink(path)
+        rc = os.system('make 05')
         if 0 == rc:
             rc = os.path.isfile(path)
         else:

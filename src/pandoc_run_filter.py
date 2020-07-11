@@ -3,6 +3,7 @@ import os
 import random
 import re
 import pprint
+import shutil
 import stat
 import string
 import subprocess
@@ -15,13 +16,19 @@ from PIL import ImageDraw, ImageFont
 __version__ = '0.0.1'
 
 MARKDOWN_TAG_NAME = 'run'
-ARTIFACTS_DIR = 'run_artifacts'
+ARTIFACTS_DIR = '__pandoc_run'
 DEBUG_FILE = f'{ARTIFACTS_DIR}/debug.txt'
 
 def debug(msg):
     FD = open(f'{DEBUG_FILE}', 'a')
     FD.write(f'{msg}\n\n')
     FD.close()
+
+def adjustImagePath(imgPath):
+    newImgPath = os.path.basename(imgPath)
+    newImgPath = f'''{ARTIFACTS_DIR}/{newImgPath}'''
+    shutil.move(imgPath, newImgPath)
+    return newImgPath
 
 def execute(cmd):
     output = None
@@ -80,6 +87,8 @@ def parse(value):
         imgPath = toImageFromText(meta, output)
     else:
         imgPath = toImage(meta)
+        if not imgPath is None:
+            imgPath = adjustImagePath(imgPath)
     if imgPath is None:
         return None
     return [Para([Image([ident, classes, keyvals],
