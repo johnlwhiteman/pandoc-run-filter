@@ -147,7 +147,7 @@ Markdown:
 
 ``````
 ```{.run cmd="echo" in="shell" out="image"}
-'This is output as text.'
+'This is output as an image.'
 ```
 ``````
 
