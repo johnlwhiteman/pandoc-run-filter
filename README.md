@@ -66,7 +66,7 @@ $ pip uninstall pandoc-run-filter -y
 pandoc-run-filter looks for the following syntax in a markdown file where *.run* is the keyword.
 
 ``````
-```{.run cmd="?" in="?" out="?"}
+```{.run cmd="?" in="?" out="?" img="?"}
 ?
 ```
 ``````
@@ -110,7 +110,7 @@ Capture as an image:
 out="image"
 ```
 
-If *out* is an image and what gets executed generates a image file, then we can use the optional *img* parameter to point to the path of that file. If this option is not provided, then this tool do its best to convert the output to an image.
+If *out* is an image and what gets executed generates an image file, then we can use the optional *img* parameter to point to the path of that file. If this option is not provided, then this tool does its best to convert the output to an image.
 
 ```bash
 out="image" img="<path>"
