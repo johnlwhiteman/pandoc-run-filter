@@ -13,7 +13,7 @@ from pandocfilters import toJSONFilter, CodeBlock, Emph, Image, Para, Str
 from PIL import Image as Img
 from PIL import ImageDraw, ImageFont
 
-__version__ = '0.2'
+__version__ = '0.1.0'
 
 MARKDOWN_TAG_NAME = 'run'
 ARTIFACTS_DIR = '__pandoc_run__'
