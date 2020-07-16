@@ -1,4 +1,4 @@
-# pandoc-run-filter (v 0.1.0)
+# pandoc-run-filter
 
 A simple pandoc filter that runs an embedded command or script in a markdown document capturing its output as an image or text.
 
