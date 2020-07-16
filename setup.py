@@ -6,9 +6,10 @@ def read():
 
 setup(
     name='pandoc-run-filter',
-    version='0.0.1',
+    version='0.2',
     description='A simple filter for pandoc that runs shell commands and scripts and outputs as text and images.',
     url='https://github.com/johnlwhiteman/pandoc-run-filter',
+    download_url='https://github.com/johnlwhiteman/pandoc-run-filter/archive/v_001.tgz',
     author='John L. Whiteman',
     author_email='me@johnlwhiteman.com',
     license="BSD-3-Clause",
@@ -16,6 +17,7 @@ setup(
     python_requires='>=3.6',
     package_dir={'': 'src'},
     classifiers=[
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
@@ -48,4 +50,3 @@ setup(
     },
     package_data={},
 )
-
