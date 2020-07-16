@@ -36,16 +36,15 @@ So what could go wrong?
 (__)(__)!!!!!!!!!(__)(__)
 ```
 
-## Install Locally
+## Dependencies
+
+* pandoc >= v2.9
+* python >= v3.8
+
+## Install
 
 ```bash
 $ pip install pandoc-run-filter
-```
-
-## Install Globally
-
-```bash
-$ sudo -H pip install pandoc-run-filter
 ```
 
 ## Test
@@ -263,7 +262,7 @@ Nothing seems to work:
 
 Errors being generated from embedded scripts:
 
-* If you are seeing errors for embedded scripts, make sure that your script works as a standalone before inserting into the markdown.
+* Make sure that your script works as a standalone before inserting into the markdown.
 
 Running *pandoc-run-filter* by itself without pandoc hangs:
 
