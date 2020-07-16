@@ -1,3 +1,5 @@
 !.gitignore
 *.epub
-__pandoc_run/
+__pandoc_run__/
+__pycache__
+

@@ -36,8 +36,6 @@ setup(
     ],
     extras_require = {
         'dev': [
-            'matplotlib >= 3.2',
-            'matplotlib-venn >= 0.11',
             'pyfiglet >= 0.8',
             'pytest >= 5.1'
         ]

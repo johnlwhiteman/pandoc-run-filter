@@ -1,4 +1,4 @@
-# pandoc-run-filter
+# pandoc-run-filter (v 0.0.2)
 
 A simple pandoc filter that runs an embedded command or script in a markdown document capturing its output as an image or text.
 
@@ -36,7 +36,7 @@ So what could go wrong?
 (__)(__)!!!!!!!!!(__)(__)
 ```
 
-## Installation
+## Install
 
 ```bash
 $ pip install -e .
@@ -49,13 +49,13 @@ $ pip install -e .[dev]
 $ pytest ./tests/tests.py
 ```
 
-## Execution
+## Run
 
 ```bash
 $ pandoc --filter pandoc-run-filter myfile.md -o myfile.epub
 ```
 
-## Uninstallation
+## Uninstall
 
 ```bash
 $ pip uninstall pandoc-run-filter -y
@@ -90,13 +90,13 @@ Run as a shell command:
 in="shell"
 ```
 
-Run as a script:
+Run as an embedded script:
 
 ```bash
 in="script"
 ```
 
-Next, the *out* parameter tells us how the output should be handled. We have two options here as well:
+Next, the *out* parameter tells us how the output should be handled. We have a few options here too:
 
 Capture as text:
 
@@ -110,7 +110,7 @@ Capture as an image:
 out="image"
 ```
 
-If the *out* is an image and what gets executed generates a image file, then we can use the optional *img* parameter to point to the path of that file. If this option is not provided, then the tool will convert the text output to an image.
+If *out* is an image and what gets executed generates a image file, then we can use the optional *img* parameter to point to the path of that file. If this option is not provided, then this tool do its best to convert the output to an image.
 
 ```bash
 out="image" img="<path>"
@@ -121,7 +121,7 @@ That's about it. Now, it's time for some examples. There were taken from the use
 
 ## Examples
 
-### ./tests/01.md
+### [./tests/01.md](./tests/01.md)
 
 *Run the echo command in a shell and capture the output as text*
 
@@ -133,50 +133,85 @@ Markdown:
 ```
 ``````
 
+Pandoc:
+
+```bash
+pandoc -i 01.md --filter pandoc-run-filter -o 01.epub
+```
+
 Output:
 
 ```bash
 'This is output as text.'
 ```
 
-### ./tests/02.md
+[01.epub](./epubs/01.epub)
 
-*Run the echo command in a shell and capture the output as an image*
+
+### [./tests/02.md](./tests/02.md)
+
+*Run the echo command in a shell and convert the output to an image*
 
 Markdown:
 
 ``````
 ```{.run cmd="echo" in="shell" out="image"}
-'This is output as an image.'
+'This is the output but converted to an image.'
 ```
 ``````
+
+Pandoc:
+
+```bash
+pandoc -i 02.md --filter pandoc-run-filter -o 02.epub
+```
 
 Output:
 
 ![](./images/02.png)
 
+[02.epub](./epubs/02.epub)
 
-### ./tests/03.md
 
-*Run embedded python script and capture the output as text*
+### [./tests/03.md](./tests/03.md)
+
+*Run an embedded python script and capture the output as text*
 
 Markdown:
 
 ``````
 ```{.run cmd="python" in="script" out="text"}
-import random
-r = random.randint(0,101)
-print(f'''Here's a random number between 0-100: {r}''')
+import pyfiglet
+r = pyfiglet.figlet_format('Hi There!', font = 'banner')
+print(f'''The is an embedded python script that generates ascii art.\n''')
+print(r)
 ```
 ``````
+
+Pandoc:
+
+```bash
+pandoc -i 03.md --filter pandoc-run-filter -o 03.epub
+```
 
 Output:
 
 ```bash
-Here's a random number between 0-100: 64
+The is an embedded python script that generates ascii art.
+
+#     #      #######                             ###
+#     # #       #    #    # ###### #####  ###### ###
+#     # #       #    #    # #      #    # #      ###
+####### #       #    ###### #####  #    # #####   #
+#     # #       #    #    # #      #####  #
+#     # #       #    #    # #      #   #  #      ###
+#     # #       #    #    # ###### #    # ###### ###
+
 ```
 
-### ./tests/04.md
+[03.epub](./epubs/03.epub)
+
+### [./tests/04.md](./tests/04.md)
 
 *Run embedded python script and capture the output as a path to an image it created*
 
@@ -184,60 +219,30 @@ Markdown:
 
 ``````
 ```{.run cmd="python" in="script" out="image" img="04.png"}
-from matplotlib_venn import venn2, venn2_circles, venn2_unweighted
-from matplotlib_venn import venn3, venn3_circles
-from matplotlib import pyplot as plt
-venn2(subsets = (30, 10, 5), set_labels = ('Group A', 'Group B'))
-plt.sa
+from PIL import Image, ImageDraw, ImageFont
+T = 'Hi There!'
+W = 400
+H = 400
+shape = [(50, 50), (W - 10, H - 10)]
+fnt = ImageFont.truetype('arial.ttf', 18)
+image = Image.new(mode = 'RGB', size = (W, H), color='white')
+draw = ImageDraw.Draw(image)
+w, h = draw.textsize(T, fnt)
+draw.rectangle(shape, fill ='#AAAAAA', outline ='#000000')
+draw.text(((W-w)/2,(H-h)/2), T, font=fnt, fill='black')
+image.save('04.png')
 ```
 ``````
+
+Pandoc:
+
+```bash
+pandoc -i 04.md --filter pandoc-run-filter -o 04.epub
+```
 
 Output:
 
 ![](./images/04.png)
 
 
-### ./tests/05.md
-
-*Run embedded python script and capture the output as a path to an image it created*
-
-Markdown:
-
-[Credit: Matplotlib](https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/cohere.html)
-
-``````
-```{.run cmd="python" in="script" out="image" img="05.png"}
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Fixing random state for reproducibility
-np.random.seed(19680801)
-
-dt = 0.01
-t = np.arange(0, 30, dt)
-nse1 = np.random.randn(len(t)) # white noise 1
-nse2 = np.random.randn(len(t)) # white noise 2
-
-# Two signals with a coherent part at 10Hz and a random part
-s1 = np.sin(2 * np.pi * 10 * t) + nse1
-s2 = np.sin(2 * np.pi * 10 * t) + nse2
-
-fig, axs = plt.subplots(2, 1)
-axs[0].plot(t, s1, t, s2)
-axs[0].set_xlim(0, 2)
-axs[0].set_xlabel('time')
-axs[0].set_ylabel('s1 and s2')
-axs[0].grid(True)
-
-cxy, f = axs[1].cohere(s1, s2, 256, 1. / dt)
-axs[1].set_ylabel('coherence')
-
-fig.tight_layout()
-plt.savefig("05.png")
-```
-``````
-
-Output:
-
-![](./images/05.png)
-
+[04.epub](./epubs/04.epub)

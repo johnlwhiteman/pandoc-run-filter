@@ -13,10 +13,10 @@ from pandocfilters import toJSONFilter, CodeBlock, Emph, Image, Para, Str
 from PIL import Image as Img
 from PIL import ImageDraw, ImageFont
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 MARKDOWN_TAG_NAME = 'run'
-ARTIFACTS_DIR = '__pandoc_run'
+ARTIFACTS_DIR = '__pandoc_run__'
 DEBUG_FILE = f'{ARTIFACTS_DIR}/debug.txt'
 
 def debug(msg):
@@ -119,7 +119,7 @@ def toImageFromText(meta, output):
         if c > width:
             width = c
     height = height * fontSize + (int(height * fontSize / 4.2))
-    width = int(width * fontSize / 2.3)
+    width = int(width * fontSize / 2)
     fnt = ImageFont.truetype('arial.ttf', fontSize)
     image = Img.new(mode = "RGB", size = (width, height), color='white')
     draw = ImageDraw.Draw(image)
@@ -134,7 +134,10 @@ def toScript(meta):
     st = os.stat(tmpScriptPath)
     os.chmod(tmpScriptPath, os.stat(tmpScriptPath).st_mode | stat.S_IEXEC)
     cmd = "{0} {1}".format(meta['cmd'], tmpScriptPath)
-    return execute(cmd)
+    o = execute(cmd)
+    if os.path.isfile(tmpScriptPath):
+        os.unlink(tmpScriptPath)
+    return o
 
 def toShell(meta):
     cmd = "{0} {1}".format(meta['cmd'], meta['body'])

@@ -3,7 +3,11 @@ import shutil
 from unittest import TestCase
 import pandoc_run_filter as prf
 
-DIR = os.path.dirname(os.path.realpath(__file__))
+DIR     = os.path.dirname(os.path.realpath(__file__))
+FLAGS   = '--from=markdown --standalone --self-contained'
+FILTERS = '--filter pandoc-run-filter'
+ODIR    = './__pandoc_run__'
+ARGS    = f'''{FLAGS} {FILTERS} --to epub3 --metadata title=Test -o {ODIR}/'''
 
 class Tests(TestCase):
 
@@ -16,15 +20,15 @@ class Tests(TestCase):
             shutil.rmtree(path)
 
     '''Verify pandoc-run-filter is in path'''
-    def test_01(self):
+    def test_001(self):
          self.assertIsNotNone(shutil.which('pandoc-run-filter'))
 
     '''Verify pandoc is in path'''
-    def test_02(self):
+    def test_002(self):
          self.assertIsNotNone(shutil.which('pandoc'))
 
     '''Verify artifacts directory gets created'''
-    def test_03(self):
+    def test_003(self):
         self.rm_dir(prf.ARTIFACTS_DIR)
         prf.initialize()
         rc = os.path.isdir(prf.ARTIFACTS_DIR)
@@ -32,7 +36,7 @@ class Tests(TestCase):
         self.assertTrue(rc)
 
     '''Verify debug file is created'''
-    def test_04(self):
+    def test_004(self):
         self.rm_dir(prf.ARTIFACTS_DIR)
         prf.initialize()
         prf.debug('Some debug message.')
@@ -45,12 +49,14 @@ class Tests(TestCase):
         self.assertTrue(rc)
 
     '''Verify in="shell" out="text"'''
-    def test_05(self):
-        path = f'''{prf.ARTIFACTS_DIR}/01.epub'''
+    def test_01(self):
+        t = '01'
+        cmd = f'''pandoc -i {t}.md {ARGS}/{t}.epub'''
+        path = f'''{prf.ARTIFACTS_DIR}/{t}.epub'''
         os.chdir(DIR)
         if os.path.isfile(path):
             os.unlink(path)
-        rc = os.system('make 01')
+        rc = os.system(cmd)
         if 0 == rc:
             rc = os.path.isfile(path)
         else:
@@ -58,12 +64,14 @@ class Tests(TestCase):
         self.assertTrue(rc)
 
     '''Verify in="shell" out="image"'''
-    def test_06(self):
-        path = f'''{prf.ARTIFACTS_DIR}/02.epub'''
+    def test_02(self):
+        t = '02'
+        cmd = f'''pandoc -i {t}.md {ARGS}/{t}.epub'''
+        path = f'''{prf.ARTIFACTS_DIR}/{t}.epub'''
         os.chdir(DIR)
         if os.path.isfile(path):
             os.unlink(path)
-        rc = os.system('make 02')
+        rc = os.system(cmd)
         if 0 == rc:
             rc = os.path.isfile(path)
         else:
@@ -71,40 +79,32 @@ class Tests(TestCase):
         self.assertTrue(rc)
 
     '''Verify in="script" out="text"'''
-    def test_07(self):
-        path = f'''{prf.ARTIFACTS_DIR}/03.epub'''
+    def test_03(self):
+        t = '03'
+        cmd = f'''pandoc -i {t}.md {ARGS}/{t}.epub'''
+        path = f'''{prf.ARTIFACTS_DIR}/{t}.epub'''
         os.chdir(DIR)
         if os.path.isfile(path):
             os.unlink(path)
-        rc = os.system('make 03')
+        rc = os.system(cmd)
         if 0 == rc:
             rc = os.path.isfile(path)
         else:
             rc = False
         self.assertTrue(rc)
 
-    '''Verify in="script" out="image img="venn04.png"'''
-    def test_08(self):
-        path = f'''{prf.ARTIFACTS_DIR}/04.epub'''
+    '''Verify in="script" out="image img="04.png"'''
+    def test_04(self):
+        t = '04'
+        cmd = f'''pandoc -i {t}.md {ARGS}/{t}.epub'''
+        path = f'''{prf.ARTIFACTS_DIR}/{t}.epub'''
         os.chdir(DIR)
         if os.path.isfile(path):
             os.unlink(path)
-        rc = os.system('make 04')
+        rc = os.system(cmd)
         if 0 == rc:
             rc = os.path.isfile(path)
         else:
             rc = False
         self.assertTrue(rc)
 
-    '''Verify in="script" out="image img="co05.png"'''
-    def test_08(self):
-        path = f'''{prf.ARTIFACTS_DIR}/05.epub'''
-        os.chdir(DIR)
-        if os.path.isfile(path):
-            os.unlink(path)
-        rc = os.system('make 05')
-        if 0 == rc:
-            rc = os.path.isfile(path)
-        else:
-            rc = False
-        self.assertTrue(rc)
