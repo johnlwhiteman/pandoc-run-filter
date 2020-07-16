@@ -121,7 +121,7 @@ That's about it. Now, it's time for some examples. There were taken from the use
 
 ## Examples
 
-### [./tests/01.md](./tests/01.md)
+### [01.md](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/tests/01.md)
 
 *Run the echo command in a shell and capture the output as text*
 
@@ -145,10 +145,10 @@ Output:
 'This is output as text.'
 ```
 
-[01.epub](./epubs/01.epub)
+[01.epub](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/epubs/01.epub)
 
+### [02.md](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/tests/02.md)
 
-### [./tests/02.md](./tests/02.md)
 
 *Run the echo command in a shell and convert the output to an image*
 
@@ -168,12 +168,12 @@ pandoc -i 02.md --filter pandoc-run-filter -o 02.epub
 
 Output:
 
-![](./images/02.png)
+![./images/02.png)](https://github.com/johnlwhiteman/pandoc-run-filter/raw/master/images/02.png)
 
-[02.epub](./epubs/02.epub)
+[02.epub](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/epubs/02.epub)
 
 
-### [./tests/03.md](./tests/03.md)
+### [03.md](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/tests/03.md)
 
 *Run an embedded python script and capture the output as text*
 
@@ -209,9 +209,9 @@ The is an embedded python script that generates ascii art.
 
 ```
 
-[03.epub](./epubs/03.epub)
+[03.epub](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/epubs/03.epub)
 
-### [./tests/04.md](./tests/04.md)
+### [04.md](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/tests/04.md)
 
 *Run embedded python script and capture the output as a path to an image it created*
 
@@ -242,7 +242,31 @@ pandoc -i 04.md --filter pandoc-run-filter -o 04.epub
 
 Output:
 
-![](./images/04.png)
+![./images/04.png](https://github.com/johnlwhiteman/pandoc-run-filter/raw/master/images/04.png)
 
 
-[04.epub](./epubs/04.epub)
+[04.epub](https://github.com/johnlwhiteman/pandoc-run-filter/blob/master/epubs/04.epub)
+
+
+## Troubleshooting Tips
+
+Errors being generated from embedded scripts:
+
+* If you are seeing errors for embedded scripts, make sure that your script works as a standalone before inserting into the markdown.
+
+Running *pandoc-run-filter* by itself without pandoc hangs:
+
+* It's normal since it's expecting input from pandoc.
+
+Running *pandoc-run-filter* keeps throwing exceptions:
+
+* Make sure that your markdown syntax is correct.
+* Also run the tests to see if your environment is correct (see instructions above).
+
+Another pandoc filter is also using the *run* keyword. What to do?
+
+* Although not recommended, you can modify the variable *MARKDOWN_TAG_NAME = 'run'* in *pandoc_run_filter.py* to something different and unique.
+
+Note: *We are considering adding a new feature to support a configuration file or environment variables in the future where this can be changed without script modification.*
+
+
