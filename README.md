@@ -36,10 +36,16 @@ So what could go wrong?
 (__)(__)!!!!!!!!!(__)(__)
 ```
 
-## Install
+## Install Locally
 
 ```bash
 $ pip install pandoc-run-filter
+```
+
+## Install Globally
+
+```bash
+$ sudo -H pip install pandoc-run-filter
 ```
 
 ## Test
@@ -63,7 +69,7 @@ $ pip uninstall pandoc-run-filter -y
 
 ## Markdown Options
 
-pandoc-run-filter looks for the following syntax in a markdown file where *.run* is the keyword.
+*pandoc-run-filter* looks for the following syntax in a markdown file where *.run* is the keyword.
 
 ``````
 ```{.run cmd="?" in="?" out="?" img="?"}
@@ -116,7 +122,7 @@ If *out* is an image and what gets executed generates an image file, then we can
 out="image" img="<path>"
 ```
 
-That's about it. Now, it's time for some examples. There were taken from the use cases under the *./tests* directory.
+That's about it. Now, it's time for some examples. All of these were taken from the markdown use cases under the *./tests* directory.
 
 
 ## Examples
@@ -250,6 +256,11 @@ Output:
 
 ## Troubleshooting Tips
 
+Nothing seems to work:
+
+* Make sure you that have pandoc installed
+* Run the tests to see if your environment is correct (see instructions above).
+
 Errors being generated from embedded scripts:
 
 * If you are seeing errors for embedded scripts, make sure that your script works as a standalone before inserting into the markdown.
@@ -261,7 +272,7 @@ Running *pandoc-run-filter* by itself without pandoc hangs:
 Running *pandoc-run-filter* keeps throwing exceptions:
 
 * Make sure that your markdown syntax is correct.
-* Also run the tests to see if your environment is correct (see instructions above).
+* Run the tests to see if your environment is correct (see instructions above).
 
 Another pandoc filter is also using the *run* keyword. What to do?
 
