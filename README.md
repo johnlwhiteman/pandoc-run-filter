@@ -39,13 +39,13 @@ So what could go wrong?
 ## Install
 
 ```bash
-$ pip install -e .
+$ pip install pandoc-run-filter
 ```
 
 ## Test
 
 ```bash
-$ pip install -e .[dev]
+$ pip install pytest pyfiglet
 $ pytest ./tests/tests.py
 ```
 
