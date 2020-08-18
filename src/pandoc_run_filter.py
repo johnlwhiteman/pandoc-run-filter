@@ -40,7 +40,7 @@ def execute(cmd):
                 stdout=subprocess.PIPE,
                 universal_newlines=True)
         output = process.stdout
-    except (OSError, CalledProcessError) as e:
+    except (OSError, subprocess.CalledProcessError) as e:
         pass
     return output
 
@@ -59,7 +59,7 @@ def initialize():
 def parse(value):
     output = None
     meta = {'value': value, 'cmd': None, 'in': None,
-            'out': None, 'img': None}
+            'out': None, 'img': None, 'cap': None}
     try:
         meta['tag'] = value[0][1][0]
     except IndexError:
@@ -89,10 +89,18 @@ def parse(value):
         imgPath = toImage(meta)
         if not imgPath is None:
             imgPath = adjustImagePath(imgPath)
+    if meta['cap'] is None:
+        caption = []
+        typef = ""
+    else:
+        strings = meta['cap'].split(' ')
+        caption = [{"t": "Str", "c": s} for s in strings]
+        for i in range(len(caption) - 1):
+            caption.insert(2 * i - 1, {"t": "Space"})
+        typef = "fig:"
     if imgPath is None:
         return None
-    return [Para([Image([ident, classes, keyvals],
-        [], [imgPath, "fig:"])])]
+    return [Para([Image([ident, classes, keyvals], caption, [imgPath, typef])])]
 
 def run(key, value, format, meta):
     if key == 'CodeBlock':
