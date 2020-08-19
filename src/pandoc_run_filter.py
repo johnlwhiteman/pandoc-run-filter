@@ -91,13 +91,13 @@ def parse(value):
             imgPath = adjustImagePath(imgPath)
     if meta['cap'] is None:
         caption = []
-        typef = ""
+        typef = ''
     else:
         strings = meta['cap'].split(' ')
-        caption = [{"t": "Str", "c": s} for s in strings]
+        caption = [{'t': 'Str', 'c': s} for s in strings]
         for i in range(len(caption) - 1):
-            caption.insert(2 * i - 1, {"t": "Space"})
-        typef = "fig:"
+            caption.insert(2 * i - 1, {'t': 'Space'})
+        typef = 'fig:'
     if imgPath is None:
         return None
     return [Para([Image([ident, classes, keyvals], caption, [imgPath, typef])])]
